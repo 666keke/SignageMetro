@@ -272,12 +272,12 @@ export default function Header() {
 
       row.elements.forEach((el, index) => {
         const isAfterSpacer = lastSpacerIndex !== -1 && index > lastSpacerIndex;
+        const elWidth = el.type === 'spacer' ? spacerWidth : getElementWidth(el, currentFontFamily, currentFontFamilyEn);
 
         if (el.type !== 'spacer') {
-          svg += renderElementToSVG(el, xOffset, cy, isAfterSpacer);
+          svg += renderElementToSVG(el, xOffset, cy, elWidth, isAfterSpacer);
         }
         
-        const elWidth = el.type === 'spacer' ? spacerWidth : getElementWidth(el, currentFontFamily, currentFontFamilyEn);
         xOffset += elWidth + getGapWidth(el.gapAfter);
       });
       svg += `  </g>\n`;
@@ -310,7 +310,7 @@ export default function Header() {
     }
   };
 
-  const renderElementToSVG = (el: typeof rows[0]['elements'][0], x: number, cy: number, isAfterSpacer: boolean = false) => {
+  const renderElementToSVG = (el: typeof rows[0]['elements'][0], x: number, cy: number, elWidth: number, isAfterSpacer: boolean = false) => {
     switch (el.type) {
       case 'exit':
         const r = S.exitSize / 2 - S.exitBorderWidth;
@@ -343,8 +343,13 @@ export default function Header() {
         if (isAfterSpacer) ltAlign = 'right';
         const ltAnchor = ltAlign === 'center' ? 'middle' : ltAlign === 'right' ? 'end' : 'start';
         const ltFs = el.fontSize ?? S.largeTextFontSize;
+        
+        let ltX = x;
+        if (ltAlign === 'center') ltX = x + elWidth / 2;
+        if (ltAlign === 'right') ltX = x + elWidth;
+
         return `  <g>
-    <text x="${x}" y="${cy + ltFs * 0.35}" class="cn" font-size="${ltFs}" font-weight="${el.fontWeight || S.largeTextFontWeight || 600}" fill="${theme.primaryColor}" text-anchor="${ltAnchor}">${el.content || '大文字'}</text>
+    <text x="${ltX}" y="${cy + ltFs * 0.35}" class="cn" font-size="${ltFs}" font-weight="${el.fontWeight || S.largeTextFontWeight || 600}" fill="${theme.primaryColor}" text-anchor="${ltAnchor}">${el.content || '大文字'}</text>
   </g>\n`;
       
       case 'text':
@@ -367,9 +372,13 @@ export default function Header() {
         const cnY = startY + cnFs * baselineRatio;
         const enY = startY + cnFs + gap + enFs * baselineRatio;
 
-        const enText = hasEn ? `\n    <text x="${x}" y="${enY}" class="en" font-size="${enFs}" font-weight="${S.textEnFontWeight || 500}" fill="${theme.secondaryColor}" text-anchor="${textAnchor}">${el.contentEn}</text>` : '';
+        let textX = x;
+        if (align === 'center') textX = x + elWidth / 2;
+        if (align === 'right') textX = x + elWidth;
+
+        const enText = hasEn ? `\n    <text x="${textX}" y="${enY}" class="en" font-size="${enFs}" font-weight="${S.textEnFontWeight || 500}" fill="${theme.secondaryColor}" text-anchor="${textAnchor}">${el.contentEn}</text>` : '';
         return `  <g>
-    <text x="${x}" y="${cnY}" class="cn" font-size="${cnFs}" font-weight="${el.fontWeight || S.textCnFontWeight || 600}" fill="${theme.primaryColor}" text-anchor="${textAnchor}">${el.content || '文字'}</text>${enText}
+    <text x="${textX}" y="${cnY}" class="cn" font-size="${cnFs}" font-weight="${el.fontWeight || S.textCnFontWeight || 600}" fill="${theme.primaryColor}" text-anchor="${textAnchor}">${el.content || '文字'}</text>${enText}
   </g>\n`;
       
       case 'arrow':
