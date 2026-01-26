@@ -1,0 +1,23 @@
+[project]
+name = "metro-signage-generator"
+version = "0.1.0"
+description = "A modern web-based metro signage design tool"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "pydantic>=2.5.0",
+    "python-multipart>=0.0.6",
+    "cairosvg>=2.7.0",
+    "pillow>=10.2.0",
+]
+
+[project.scripts]
+metro-signage = "app.main:run"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.4.0",
+    "httpx>=0.26.0",
+]
