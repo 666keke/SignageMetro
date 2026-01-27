@@ -57,7 +57,7 @@ export default function Header() {
     // Load SimHei if needed
     if (S.fontFamilyCn === 'simhei' || S.fontFamilyEn === 'simhei') {
       try {
-        const response = await fetch('/fonts/simhei.ttf');
+        const response = await fetch(`${import.meta.env.BASE_URL}fonts/simhei.ttf`);
         const blob = await response.blob();
         const reader = new FileReader();
         fontBase64SimHei = await new Promise((resolve) => {
@@ -72,7 +72,7 @@ export default function Header() {
     // Load Arial if needed
     if (S.fontFamilyCn === 'arial' || S.fontFamilyEn === 'arial') {
       try {
-        const response = await fetch('/fonts/arial.ttf');
+        const response = await fetch(`${import.meta.env.BASE_URL}fonts/arial.ttf`);
         const blob = await response.blob();
         const reader = new FileReader();
         fontBase64Arial = await new Promise((resolve) => {
@@ -118,7 +118,7 @@ export default function Header() {
     // Load SimHei if needed
     if (S.fontFamilyCn === 'simhei' || S.fontFamilyEn === 'simhei') {
       try {
-        const response = await fetch('/fonts/simhei.ttf');
+        const response = await fetch(`${import.meta.env.BASE_URL}fonts/simhei.ttf`);
         const blob = await response.blob();
         const reader = new FileReader();
         fontBase64SimHei = await new Promise((resolve) => {
@@ -133,7 +133,7 @@ export default function Header() {
     // Load Arial if needed
     if (S.fontFamilyCn === 'arial' || S.fontFamilyEn === 'arial') {
       try {
-        const response = await fetch('/fonts/arial.ttf');
+        const response = await fetch(`${import.meta.env.BASE_URL}fonts/arial.ttf`);
         const blob = await response.blob();
         const reader = new FileReader();
         fontBase64Arial = await new Promise((resolve) => {
@@ -212,6 +212,7 @@ export default function Header() {
 
     const currentFontFamily = getFontFamily('cn');
     const currentFontFamilyEn = getFontFamily('en');
+    const absoluteAssetBaseUrl = `${window.location.origin}${import.meta.env.BASE_URL}`;
 
     svg += `  <style>\n`;
     
@@ -219,14 +220,14 @@ export default function Header() {
     if (fontBase64SimHei) {
        svg += `    @font-face { font-family: 'SimHei'; src: url('${fontBase64SimHei}') format('truetype'); }\n`;
     } else if (S.fontFamilyCn === 'simhei' || S.fontFamilyEn === 'simhei') {
-       svg += `    @font-face { font-family: 'SimHei'; src: url('${window.location.origin}/fonts/simhei.ttf') format('truetype'); }\n`;
+       svg += `    @font-face { font-family: 'SimHei'; src: url('${absoluteAssetBaseUrl}fonts/simhei.ttf') format('truetype'); }\n`;
     }
     
     // Embed Arial
     if (fontBase64Arial) {
        svg += `    @font-face { font-family: 'Arial'; src: url('${fontBase64Arial}') format('truetype'); }\n`;
     } else if (S.fontFamilyCn === 'arial' || S.fontFamilyEn === 'arial') {
-       svg += `    @font-face { font-family: 'Arial'; src: url('${window.location.origin}/fonts/arial.ttf') format('truetype'); }\n`;
+       svg += `    @font-face { font-family: 'Arial'; src: url('${absoluteAssetBaseUrl}fonts/arial.ttf') format('truetype'); }\n`;
     }
 
     svg += `    .cn { font-family: ${currentFontFamily}; }\n`;

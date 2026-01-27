@@ -2,14 +2,14 @@
 
 @font-face {
   font-family: 'SimHei';
-  src: url('/fonts/simhei.ttf') format('truetype');
+  src: url('/gh-signage/fonts/simhei.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Arial';
-  src: url('/fonts/arial.ttf') format('truetype');
+  src: url('/gh-signage/fonts/arial.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
