@@ -1,12 +1,5 @@
----
-title: Metro Signage Generator
-emoji: 🚇
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-pinned: false
-app_port: 7860
----
+
+Try it: https://666keke.github.io/SignageMetro/
 
 # 🚇 Metro Signage Generator | 轨道交通导视生成器
 
